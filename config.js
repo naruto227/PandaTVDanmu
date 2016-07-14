@@ -10,8 +10,8 @@ var config = {
     upload: {
         path: path.join(__dirname, 'public/images/'),
         url: '/public/upload/',
-        // uploadurl: 'http://120.27.94.166:2999/'
-        uploadurl: 'http://120.27.43.2:2999/'
+        uploadurl: 'http://120.27.94.166:2999/'
+        // uploadurl: 'http://120.27.43.2:2999/'
     },
 
     sitesetting: ['huya', 'douyu', 'bilibli', 'panda', 'yy'],
@@ -19,7 +19,7 @@ var config = {
     host:"from office",
 
 
-    topn:30,
+    topn:100,
     db: {
         host: 'localhost',
         user: 'root',

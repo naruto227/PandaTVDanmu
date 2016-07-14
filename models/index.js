@@ -22,6 +22,10 @@ exports.getChatInfo = function (roomid) {
                 var jsonData = json.data;
                 var chatAddr = jsonData.chat_addr_list[0];
                 var socketIP = chatAddr.split(':')[0];
+                if('111.206.247.203'==socketIP){
+                    console.log(roomid + ": " + socketIP);
+                    return;
+                }
                 var socketPort = chatAddr.split(':')[1];
                 var rid = jsonData.rid;
                 var appid = jsonData.appid;

@@ -66,29 +66,30 @@ request('http://120.27.94.166:2999/getRooms?platform=panda&topn='+config.topn, f
     return console.log(error)
   }
   var parse = JSON.parse(body);
+  
   for(var i=0;i<parse.data.length;i++){
     rooms.push(parseInt(parse.data[i].room_id));
   }
   myEvents.on('danmu',function (room_id) {
-    sendroomid.getChatInfo(room_id);
+    // setInterval(function () {
+      sendroomid.getChatInfo(room_id);
+    // },1000)
 
   });
   rooms.forEach(function (room) {
     myEvents.emit("danmu", room)
   });
 });
-/*
-var rooms = ["135069", "322650", "10387"];//, "56040", "154537", "10903", "4809", "335166", "93912", "247634", "321358"];
-
-myEvents.on('danmu',function (room_id) {
-  sendroomid.getChatInfo(room_id);
-
-});
-
-rooms.forEach(function (room_id) {
-  myEvents.emit('danmu',room_id);
-});
-*/
+// var rooms = ["10000"]//["135069", "322650", "10387"];//, "56040", "154537", "10903", "4809", "335166", "93912", "247634", "321358"];
+//
+// myEvents.on('danmu',function (room_id) {
+//   sendroomid.getChatInfo(room_id);
+//
+// });
+//
+// rooms.forEach(function (room_id) {
+//   myEvents.emit('danmu',room_id);
+// });
 
 
 // sendroomid.getChatInfo(15053);

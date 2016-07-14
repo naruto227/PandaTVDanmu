@@ -8,7 +8,7 @@ exports.uploadServe = function (room_id, paltform, data) {
     var options = {
         headers: {"Connection": "close"},
         url: config.upload.uploadurl + "dmPandatv" +
-        "&room_id=" + room_id,
+        "?room_id=" + room_id,
         /*url: "http://localhost:2999/" +  "dmPandatv" +
          "?room_id=" + room_id,*/
         method: 'POST',
@@ -20,6 +20,8 @@ exports.uploadServe = function (room_id, paltform, data) {
         if (!error && response.statusCode == 200) {
             console.log('----info------', data);
 
+        }else {
+            console.log(error.message)
         }
     }
 
