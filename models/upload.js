@@ -18,7 +18,7 @@ exports.uploadServe = function (room_id, paltform, data) {
 
     function callback(error, response, data) {
         if (!error && response.statusCode == 200) {
-            console.log('----info------', data);
+            console.log('----info------');//, data);
 
         }else {
             console.log(error.message)
@@ -26,5 +26,5 @@ exports.uploadServe = function (room_id, paltform, data) {
     }
 
     request(options, callback);
-    console.log(room_id + "******" + JSON.stringify({msg: data}));
+    console.log(room_id + "******" );//+ JSON.stringify({msg: data}));
 };

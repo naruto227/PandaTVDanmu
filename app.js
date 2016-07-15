@@ -11,6 +11,8 @@ var request = require('request');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var config = require("./config.js");
+var schedule = require('node-schedule');
+var rule = new schedule.RecurrenceRule();
 
 var app = express();
 
@@ -60,10 +62,11 @@ app.use(function(err, req, res, next) {
   });
 });
 
-rooms=[];
+var rooms = [];
+var times = [];
 request('http://120.27.94.166:2999/getRooms?platform=panda&topn='+config.topn, function (error, response, body) {
   if (error) {
-    return console.log(error)
+    return console.log(error);
   }
   var parse = JSON.parse(body);
   
@@ -76,9 +79,23 @@ request('http://120.27.94.166:2999/getRooms?platform=panda&topn='+config.topn, f
     // },1000)
 
   });
-  rooms.forEach(function (room) {
-    myEvents.emit("danmu", room)
+
+  rule.second = times;
+  for (var i = 0; i < 60; i++) {
+    times.push(i);
+  }
+
+  var count = 0;
+  schedule.scheduleJob(rule, function () {
+    if (count>=rooms.length){
+      this.cancel();
+      return;
+    }
+    myEvents.emit("danmu", rooms[count++]);
   });
+ /* rooms.forEach(function (room) {
+    myEvents.emit("danmu", room)
+  });*/
 });
 // var rooms = ["10000"]//["135069", "322650", "10387"];//, "56040", "154537", "10903", "4809", "335166", "93912", "247634", "321358"];
 //
