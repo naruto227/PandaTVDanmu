@@ -16,9 +16,9 @@ exports.uploadServe = function (room_id, paltform, data) {
         body: {msg: data}
     };
 
-    function callback(error, response, data) {
+    function callback(error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log('----info------' + data);
+            console.log('----info------', body);
 
         }else {
             console.log(error.message)

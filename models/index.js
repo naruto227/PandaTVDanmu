@@ -12,7 +12,7 @@ var chat = require('./net/chat');
 // util.inherits(getChatInfo, events.EventEmitter);
 
 exports.getChatInfo = function (roomid) {
-    console.log(roomid);
+    // console.log(roomid);
     http.get('http://www.panda.tv/ajax_chatinfo?roomid=' + roomid, function (res) {
         // request('http://www.panda.tv/ajax_chatinfo?roomid=' + roomid, function (res) {
 
