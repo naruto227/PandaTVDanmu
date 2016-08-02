@@ -63,17 +63,17 @@ exports.analyseMsg = function (roomid, totalMsg) {
 
 function formatMsg(roomid, msg) {
     try {
-        var DANMU_TYPE = '1';
+        /*var DANMU_TYPE = '1';
         var BAMBOO_TYPE = '206';
         var AUDIENCE_TYPE = '207';
-        var TU_HAO_TYPE = '306';
+        var TU_HAO_TYPE = '306';*/
         /*var MANAGER = '60';
          var SP_MANAGER = '120';
          var HOSTER = '90';*/
         msg = JSON.parse(msg);
         msg.ctime = new Date().getTime();
         mydata.push(msg);
-        if (mydata.length > 20) {
+        if (mydata.length > 100) {
             // console.log(JSON.stringify(mydata));
             upload.uploadServe(roomid, "pandatv", mydata);
             mydata = [];
