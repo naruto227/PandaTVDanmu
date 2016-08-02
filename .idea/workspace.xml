@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7df67956-5084-4bc2-9e07-769f1f3f8964" name="Default" comment="100条上传">
+    <list default="true" id="7df67956-5084-4bc2-9e07-769f1f3f8964" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PandaTVDanmu.iws" />
@@ -742,7 +742,7 @@
       <workItem from="1468547393451" duration="3361000" />
       <workItem from="1468637210257" duration="2533000" />
       <workItem from="1468806612481" duration="142000" />
-      <workItem from="1470107009465" duration="1142000" />
+      <workItem from="1470107009465" duration="1159000" />
     </task>
     <task id="LOCAL-00001" summary="upload data">
       <created>1468466395121</created>
@@ -786,11 +786,18 @@
       <option name="project" value="LOCAL" />
       <updated>1470107255691</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="100条上传">
+      <created>1470108157291</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1470108157291</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58481000" />
+    <option name="totallyTimeSpent" value="58498000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1920" height="1173" extended-state="6" />
