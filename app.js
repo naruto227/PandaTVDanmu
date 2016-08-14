@@ -4,7 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var sendroomid = require('./models/index');
+// var sendroomid = require('./models/index');
+var panda = require('./crawler/panda_danmu');
 var EventEmitter = require('events').EventEmitter;
 var myEvents = new EventEmitter();
 var request = require('request');
@@ -75,7 +76,8 @@ request('http://120.27.94.166:2999/getRooms?platform=panda&topn='+config.topn, f
   }
   myEvents.on('danmu',function (room_id) {
     // setInterval(function () {
-      sendroomid.getChatInfo(room_id);
+    new panda(room_id);
+    //   sendroomid.getChatInfo(room_id);
     // },1000)
 
   });

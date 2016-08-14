@@ -1,8 +1,20 @@
+/**
+ * Created by hzq on 16-8-14.
+ */
 var http = require('http');
 var net = require('net');
+var upload = require('../models/upload');
 
-function getChatInfo(roomid) {
-    http.get('http://www.panda.tv/ajax_chatinfo?roomid=' + roomid, function(res) {
+function Panda(roomid) {
+    this.roomid = roomid;
+    this.getChatInfo();
+}
+
+module.exports = Panda;
+
+Panda.prototype.getChatInfo = function(){
+    var self = this;
+    http.get('http://www.panda.tv/ajax_chatinfo?roomid=' + this.roomid, function(res) {
         res.on('data', function(chunk) {
             var json = JSON.parse(chunk);
             var jsonData = json.data;
@@ -25,12 +37,13 @@ function getChatInfo(roomid) {
                 "sign": sign,
                 "ts": ts
             };
-            start(chatInfo);
+            self.start(chatInfo);
         });
     });
 }
 
-function start(chatInfo) {
+Panda.prototype.start = function(chatInfo) {
+    var self = this;
     var s = net.connect({
         port: chatInfo['socketPort'],
         host: chatInfo['socketIP']
@@ -53,11 +66,11 @@ function start(chatInfo) {
             console.log('login');
             completeMsg = [];
         } else if (chunk.readInt16BE(0) == 6 && chunk.readInt16BE(2) == 3) {
-            var msg = getMsg(chunk);
+            var msg = self.getMsg(chunk);
             if (msg[0].length < msg[1]) {
                 console.log('parted');
             } else {
-                analyseMsg(msg[0]);
+                self.analyseMsg(msg[0]);
                 completeMsg = [];
             }
         } else if (chunk.readInt16BE(0) == 6 && chunk.readInt16BE(2) == 1) {
@@ -85,16 +98,16 @@ function sendData(s, msg) {
     s.write(data);
 }
 
-function sendKeepalive(s) {
+function sendKeepalive (s) {
     var data = new Buffer(4);
     data.writeInt16BE(6, 0);
     data.writeInt16BE(0, 2);
     s.write(data);
 }
 
-function getMsg(chunk) {
+Panda.prototype.getMsg = function (chunk) {
     var msgLen = chunk.readInt16BE(4);
-    var msg = chunk.slice(6, 6 + msgLen);
+    // var msg = chunk.slice(6, 6 + msgLen);
     var offset = 6 + msgLen;
     msgLen = chunk.readInt32BE(offset);
     offset += 4;
@@ -104,27 +117,34 @@ function getMsg(chunk) {
     return msgInfo;
 }
 
-function analyseMsg(totalMsg) {
+Panda.prototype.analyseMsg = function(totalMsg) {
     while (totalMsg.length > 0) {
         var IGNORE_LEN = 12;
         totalMsg = totalMsg.slice(IGNORE_LEN);
         var msgLen = totalMsg.readInt32BE(0);
         var msg = totalMsg.slice(4, 4 + msgLen);
-        formatMsg(msg);
+        this.formatMsg(msg);
         totalMsg = totalMsg.slice(4 + msgLen);
     }
 }
-
-function formatMsg(msg) {
-    var DANMU_TYPE = '1'
-    var BAMBOO_TYPE = '206'
-    var AUDIENCE_TYPE = '207'
-    var TU_HAO_TYPE = '306'
-    var MANAGER = '60'
-    var SP_MANAGER = '120'
-    var HOSTER = '90'
+var mydata = [];
+Panda.prototype.formatMsg = function (msg) {
+    /*var DANMU_TYPE = '1';
+    var BAMBOO_TYPE = '206';
+    var AUDIENCE_TYPE = '207';
+    var TU_HAO_TYPE = '306';
+    var MANAGER = '60';
+    var SP_MANAGER = '120';
+    var HOSTER = '90';*/
     msg = JSON.parse(msg);
-    var content = msg.data.content;
+    msg.ctime = new Date().getTime();
+    mydata.push(msg);
+    if (mydata.length > 50) {
+        // console.log(JSON.stringify(mydata));
+        upload.uploadServe(this.roomid, "pandatv", mydata);
+        mydata = [];
+    }
+    /*var content = msg.data.content;
     if (msg.type == DANMU_TYPE) {
         var identity = msg.data.from.identity;
         var nickName = msg.data.from.nickName;
@@ -146,6 +166,6 @@ function formatMsg(msg) {
         console.log('*******' + nickName + '送给主播[' + price + ']个猫币' + '*******');
     } else if (msg.type == AUDIENCE_TYPE) {
         console.log('==========观众人数' + content + '==========');
-    }
+    }*/
 }
-getChatInfo(322650);
+// getChatInfo(322650);
