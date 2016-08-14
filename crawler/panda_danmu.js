@@ -16,28 +16,33 @@ Panda.prototype.getChatInfo = function(){
     var self = this;
     http.get('http://www.panda.tv/ajax_chatinfo?roomid=' + this.roomid, function(res) {
         res.on('data', function(chunk) {
-            var json = JSON.parse(chunk);
-            var jsonData = json.data;
-            var chatAddr = jsonData.chat_addr_list[0];
-            var socketIP = chatAddr.split(':')[0];
-            var socketPort = chatAddr.split(':')[1];
-            var rid = jsonData.rid;
-            var appid = jsonData.appid;
-            var authtype = jsonData.authType;
-            var sign = jsonData.sign;
-            var ts = jsonData.ts;
-            //console.log(socketIP, socketPort, rid, appid, authtype, sign, ts);
+            try {
+                var json = JSON.parse(chunk);
+                var jsonData = json.data;
+                var chatAddr = jsonData.chat_addr_list[0];
+                var socketIP = chatAddr.split(':')[0];
+                var socketPort = chatAddr.split(':')[1];
+                var rid = jsonData.rid;
+                var appid = jsonData.appid;
+                var authtype = jsonData.authType;
+                var sign = jsonData.sign;
+                var ts = jsonData.ts;
+                //console.log(socketIP, socketPort, rid, appid, authtype, sign, ts);
 
-            var chatInfo = {
-                "socketIP": socketIP,
-                "socketPort": socketPort,
-                "rid": rid,
-                "appid": appid,
-                "authtype": authtype,
-                "sign": sign,
-                "ts": ts
-            };
-            self.start(chatInfo);
+                var chatInfo = {
+                    "socketIP": socketIP,
+                    "socketPort": socketPort,
+                    "rid": rid,
+                    "appid": appid,
+                    "authtype": authtype,
+                    "sign": sign,
+                    "ts": ts
+                };
+                self.start(chatInfo);
+            }catch (e){
+
+            }
+
         });
     });
 }
@@ -77,8 +82,8 @@ Panda.prototype.start = function(chatInfo) {
             console.log('keepalive');
             completeMsg = [];
         }else {
-            console.log('error');
-            console.log(chunk);
+            return console.log('error');
+            // console.log(chunk);
             completeMsg = [];
         }
     });
@@ -139,7 +144,7 @@ Panda.prototype.formatMsg = function (msg) {
     msg = JSON.parse(msg);
     msg.ctime = new Date().getTime();
     mydata.push(msg);
-    if (mydata.length > 50) {
+    if (mydata.length > 100) {
         // console.log(JSON.stringify(mydata));
         upload.uploadServe(this.roomid, "pandatv", mydata);
         mydata = [];
