@@ -53,6 +53,7 @@ Panda.prototype.start = function(chatInfo) {
         port: chatInfo['socketPort'],
         host: chatInfo['socketIP']
     }, function() {
+        map.set(self.roomid,true);
         console.log('connect success');
     });
 
@@ -82,6 +83,7 @@ Panda.prototype.start = function(chatInfo) {
             console.log('keepalive');
             completeMsg = [];
         }else {
+            map.set(self.roomid,false);
             return console.log('error');
             // console.log(chunk);
             completeMsg = [];
